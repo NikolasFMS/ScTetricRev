@@ -1,52 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <title>Генератор отзывов по урокам</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #f0f0f0;
-    }
-    select, button {
-      margin: 10px 0;
-      padding: 8px;
-    }
-    .section {
-      background: white;
-      padding: 10px;
-      margin: 15px 0;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 8px;
-    }
-    /* Стили для анимации кнопки копирования */
-    .copy-button-copied {
-      background-color: #4CAF50 !important; /* Зеленый цвет при копировании */
-      color: white;
-      transition: background-color 0.3s ease;
-    }
-  </style>
-</head>
-<body>
-  <h2>🧠 Генератор Отзывов по Занятиям</h2>
-  <label for="theme">Выбери тему урока:</label>
-  <select id="theme">
-    <option value="scratch">Scratch</option>
-    <option value="intro">Вводный</option>
-    <option value="comp">Комп. грамотность</option>
-  </select>
-  <button onclick="generateAll()">🎲 Сгенерировать Отзыв</button>
-  <div id="output"></div>
-  <script>
-  const data = {
+{
   scratch: {
     goal: [
       "Развивать понимание цифровых сценариев в интерактивной среде.",
@@ -448,58 +400,6 @@
       "Снижение времени на выполнение рутинных операций."
     ]
   }
-};
-
-    const titleMap = {
-  "Цель": "goal",
-  "Последние уроки": "past",
-  "Рекомендуется подтянуть": "improve"
-};
-
-function randomFrom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function generateBlock(title, content) {
-  return `
-    <div class="section">
-      <strong>${title}</strong>
-      <p id="text-${title}">${content}</p>
-      <div class="buttons">
-        <button class="copy-button" onclick="copyText('${title}', this)">📋 Копировать</button>
-        <button onclick="regenerate('${title}')">🔄 Новый вариант</button>
-      </div>
-    </div>`;
-}
-
-function generateAll() {
-  const theme = document.getElementById("theme").value;
-  const goal = randomFrom(data[theme].goal);
-  const past = randomFrom(data[theme].past);
-  const improve = randomFrom(data[theme].improve);
-  document.getElementById("output").innerHTML =
-    generateBlock("Цель", goal) +
-    generateBlock("Последние уроки", past) +
-    generateBlock("Рекомендуется подтянуть", improve);
-}
-
-function copyText(id, buttonElement) {
-  const text = document.getElementById("text-" + id).innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    buttonElement.classList.add('copy-button-copied');
-    setTimeout(() => {
-      buttonElement.classList.remove('copy-button-copied');
-    }, 300);
-  });
-}
-
-function regenerate(title) {
-  const theme = document.getElementById("theme").value;
-  const key = titleMap[title];
-  if (!key) return;
-  const newText = randomFrom(data[theme][key]);
-  document.getElementById("text-" + title).innerText = newText;
-}
-  </script>
-</body>
-</html>
+  
