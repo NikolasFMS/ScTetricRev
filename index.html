@@ -3,169 +3,142 @@
 <head>
   <meta charset="UTF-8" />
   <title>Генератор отзывов по урокам</title>
-
-  <!-- Иконки -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-
   <style>
-:root {
-  --bg-color: #121212;
-  --section-bg: #1e1e1e;
-  --text-color: #ffffff;
-  --accent: #0a84ff;
-  --card-radius: 20px;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
+    :root {
+      --transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-body {
-  font-family: var(--font-main);
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  margin: 0 auto;
-  padding: 24px;
-  max-width: 800px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0 auto;
+      padding: 24px;
+      max-width: 800px;
+      transition: var(--transition);
+    }
 
-h2 {
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 24px;
-}
+    h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
 
-select,
-button {
-  font: inherit;
-  padding: 12px 20px;
-  border-radius: 12px;
-  border: none;
-  background: #2c2c2e;
-  color: var(--text-color);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+    select, button {
+      font: inherit;
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: none;
+      background: var(--button-bg);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-select:hover,
-button:hover {
-  background: #3a3a3c;
-}
+    select:hover, button:hover {
+      background: var(--button-hover);
+    }
 
-button:active {
-  transform: scale(0.97);
-}
+    button:active {
+      transform: scale(0.97);
+    }
 
-.section {
-  background: var(--section-bg);
-  padding: 20px;
-  border-radius: var(--card-radius);
-  margin-bottom: 20px;
-  box-shadow: var(--shadow);
-  animation: fadeIn 0.6s ease forwards;
-  opacity: 0;
-}
+    .section {
+      background: var(--section-bg);
+      padding: 20px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.6s ease forwards;
+      opacity: 0;
+    }
 
-.buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 16px;
-}
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
 
-.copy-button-copied {
-  background-color: var(--accent) !important;
-  color: white;
-}
+    .copy-button-copied {
+      background-color: var(--accent) !important;
+      color: white;
+    }
 
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--accent);
-  color: white;
-  padding: 10px 18px;
-  border-radius: 12px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.3s ease;
-  font-size: 15px;
-  z-index: 9999;
-}
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--accent);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.3s ease;
+      font-size: 15px;
+      z-index: 9999;
+    }
 
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) scale(1.05);
-}
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.05);
+    }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-/* Светлая тема */
-body.light {
-  --bg-color: #f9f9f9;
-  --section-bg: #ffffff;
-  --text-color: #1c1c1e;
-  --accent: #007aff;
-  --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-}
+    /* Темы */
+    .light-mode {
+      --bg-color: #f9f9f9;
+      --section-bg: #ffffff;
+      --text-color: #1c1c1e;
+      --accent: #007aff;
+      --button-bg: #e5e5ea;
+      --button-hover: #d1d1d6;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
 
-/* Автоматическое определение темы */
-@media (prefers-color-scheme: light) {
-  body:not(.dark) {
-    --bg-color: #f9f9f9;
-    --section-bg: #ffffff;
-    --text-color: #1c1c1e;
-    --accent: #007aff;
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  }
-}
+    .dark-mode {
+      --bg-color: #121212;
+      --section-bg: #1e1e1e;
+      --text-color: #ffffff;
+      --accent: #0a84ff;
+      --button-bg: #2c2c2e;
+      --button-hover: #3a3a3c;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
 
-@media (max-width: 600px) {
-  body {
-    padding: 16px;
-  }
-
-  h2 {
-    font-size: 1.4rem;
-  }
-
-  .section {
-    padding: 16px;
-  }
-
-  button,
-  select {
-    width: 100%;
-    font-size: 1rem;
-    padding: 12px;
-  }
-
-  .buttons {
-    flex-direction: column;
-    gap: 8px;
-  }
-}
-    </style>
+    @media (max-width: 600px) {
+      body { padding: 16px; }
+      h2 { font-size: 1.4rem; }
+      .section { padding: 16px; }
+      button, select {
+        width: 100%;
+        font-size: 1rem;
+        padding: 12px;
+      }
+      .buttons {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
 </head>
 <body>
   <h2>🧠 Генератор Отзывов по Занятиям</h2>
 
-  <button onclick="toggleTheme()" title="Сменить тему">
+  <button onclick="toggleTheme()" aria-label="Переключить тему" title="Переключить тему">
     <i class="ri-contrast-2-line"></i>
   </button>
 
   <label for="theme">Выбери тему урока:</label>
-  <select id="theme">
+  <select id="theme" onchange="saveThemeSelection()">
     <option value="scratch">Scratch</option>
     <option value="intro">Вводный</option>
     <option value="comp">Комп. грамотность</option>
@@ -176,28 +149,29 @@ body.light {
   </button>
 
   <div id="output"></div>
-
   <div id="toast" class="toast">Скопировано!</div>
 
   <script>
-  let data = {};
-
-  fetch("data.json")
-    .then(response => response.json())
-    .then(json => {
-      data = json;
-    })
-    .catch(err => {
-      alert("Не удалось загрузить файл данных: " + err.message);
-    });
-
-    const titleMap = {
-      "Цель": "goal",
-      "Последние уроки": "past",
-      "Рекомендуется подтянуть": "improve"
+    const settings = {
+      sectionTitles: ["Цель", "Последние уроки", "Рекомендуется подтянуть"],
+      titleMap: {
+        "Цель": "goal",
+        "Последние уроки": "past",
+        "Рекомендуется подтянуть": "improve"
+      }
     };
 
+    let data = {};
+
+    fetch("data.json")
+      .then(response => response.json())
+      .then(json => { data = json; })
+      .catch(err => {
+        alert("Не удалось загрузить файл данных: " + err.message);
+      });
+
     function randomFrom(arr) {
+      if (!arr || !arr.length) return "[Нет доступных вариантов]";
       return arr[Math.floor(Math.random() * arr.length)];
     }
 
@@ -219,53 +193,61 @@ body.light {
 
     function generateAll() {
       const theme = document.getElementById("theme").value;
-      const goal = randomFrom(data[theme].goal);
-      const past = randomFrom(data[theme].past);
-      const improve = randomFrom(data[theme].improve);
-      document.getElementById("output").innerHTML =
-        generateBlock("Цель", goal) +
-        generateBlock("Последние уроки", past) +
-        generateBlock("Рекомендуется подтянуть", improve);
+      const blocks = settings.sectionTitles.map(title => {
+        const key = settings.titleMap[title];
+        return generateBlock(title, randomFrom(data[theme][key]));
+      });
+      document.getElementById("output").innerHTML = blocks.join('');
     }
 
-    function copyText(id, buttonElement) {
+    function copyText(id, button) {
       const text = document.getElementById("text-" + id).innerText;
       navigator.clipboard.writeText(text).then(() => {
-        buttonElement.classList.add('copy-button-copied');
+        button.classList.add('copy-button-copied');
         showToast();
-        setTimeout(() => {
-          buttonElement.classList.remove('copy-button-copied');
-        }, 300);
+        setTimeout(() => button.classList.remove('copy-button-copied'), 300);
       });
     }
 
     function regenerate(title) {
       const theme = document.getElementById("theme").value;
-      const key = titleMap[title];
+      const key = settings.titleMap[title];
       if (!key) return;
       const newText = randomFrom(data[theme][key]);
       document.getElementById("text-" + title).innerText = newText;
     }
 
     function toggleTheme() {
-      document.body.classList.toggle("light");
-      const isLight = document.body.classList.contains("light");
+      const isLight = document.body.classList.toggle("light-mode");
+      document.body.classList.toggle("dark-mode", !isLight);
       localStorage.setItem("theme", isLight ? "light" : "dark");
+    }
+
+    function saveThemeSelection() {
+      const theme = document.getElementById("theme").value;
+      localStorage.setItem("lessonTheme", theme);
     }
 
     function showToast(message = "Скопировано!") {
       const toast = document.getElementById("toast");
       toast.innerText = message;
       toast.classList.add("show");
-      setTimeout(() => {
-        toast.classList.remove("show");
-      }, 2000);
+      setTimeout(() => toast.classList.remove("show"), 2000);
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      const saved = localStorage.getItem("theme");
-      if (saved === "light") {
-        document.body.classList.add("light");
+      // Тема
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light") {
+        document.body.classList.add("light-mode");
+      } else {
+        document.body.classList.add("dark-mode");
+      }
+
+      // Выбранный урок
+      const savedLesson = localStorage.getItem("lessonTheme");
+      if (savedLesson) {
+        document.getElementById("theme").value = savedLesson;
       }
     });
   </script>
