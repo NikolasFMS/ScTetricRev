@@ -390,50 +390,56 @@
   }
 };
 
-    function randomFrom(arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
+    const titleMap = {
+  "Цель": "goal",
+  "Последние уроки": "past",
+  "Рекомендуется подтянуть": "improve"
+};
 
-    function generateBlock(title, content) {
-      return `
-        <div class="section">
-          <strong>${title}</strong>
-          <p id="text-${title}">${content}</p>
-          <div class="buttons">
-            <button class="copy-button" onclick="copyText('${title}', this)">📋 Копировать</button>
-            <button onclick="regenerate('${title}')">🔄 Новый вариант</button>
-          </div>
-        </div>`;
-    }
+function randomFrom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
-    function generateAll() {
-      const theme = document.getElementById("theme").value;
-      const goal = randomFrom(data[theme].goal);
-      const past = randomFrom(data[theme].past);
-      const improve = randomFrom(data[theme].improve);
-      document.getElementById("output").innerHTML =
-        generateBlock("Цель", goal) +
-        generateBlock("Последние уроки", past) +
-        generateBlock("Рекомендуется подтянуть", improve);
-    }
+function generateBlock(title, content) {
+  return `
+    <div class="section">
+      <strong>${title}</strong>
+      <p id="text-${title}">${content}</p>
+      <div class="buttons">
+        <button class="copy-button" onclick="copyText('${title}', this)">📋 Копировать</button>
+        <button onclick="regenerate('${title}')">🔄 Новый вариант</button>
+      </div>
+    </div>`;
+}
 
-    function copyText(id, buttonElement) {
-      const text = document.getElementById("text-" + id).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        // Добавляем класс для анимации
-        buttonElement.classList.add('copy-button-copied');
-        setTimeout(() => {
-          // Убираем класс через 300 мс
-          buttonElement.classList.remove('copy-button-copied');
-        }, 300);
-      });
-    }
+function generateAll() {
+  const theme = document.getElementById("theme").value;
+  const goal = randomFrom(data[theme].goal);
+  const past = randomFrom(data[theme].past);
+  const improve = randomFrom(data[theme].improve);
+  document.getElementById("output").innerHTML =
+    generateBlock("Цель", goal) +
+    generateBlock("Последние уроки", past) +
+    generateBlock("Рекомендуется подтянуть", improve);
+}
 
-    function regenerate(id) {
-      const theme = document.getElementById("theme").value;
-      const newText = randomFrom(data[theme][id.toLowerCase()]);
-      document.getElementById("text-" + id).innerText = newText;
-    }
+function copyText(id, buttonElement) {
+  const text = document.getElementById("text-" + id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    buttonElement.classList.add('copy-button-copied');
+    setTimeout(() => {
+      buttonElement.classList.remove('copy-button-copied');
+    }, 300);
+  });
+}
+
+function regenerate(title) {
+  const theme = document.getElementById("theme").value;
+  const key = titleMap[title]; // получаем правильный ключ из заголовка
+  if (!key) return;
+  const newText = randomFrom(data[theme][key]);
+  document.getElementById("text-" + title).innerText = newText;
+}
   </script>
 </body>
 </html>
